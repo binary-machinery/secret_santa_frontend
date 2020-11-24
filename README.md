@@ -1,4 +1,4 @@
-# vue_js_hello_world
+# secret_santa_front
 
 ## Project setup
 ```
