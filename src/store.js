@@ -5,15 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    currentUser: {
-      user_id: -1,
-      name: 'Name',
-      email: '123@123.com'
-    },
+    currentUser: null
   },
   getters: {},
   mutations: {
-    setUser (state, payload) {
+    setUser(state, payload) {
       state.currentUser = payload;
     }
   },
