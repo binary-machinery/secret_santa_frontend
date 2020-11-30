@@ -5,7 +5,7 @@ import HelloWorld from "@/components/HelloWorld";
 import Registration from "@/components/Registration";
 import Login from "@/components/Login";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 export default new VueRouter({
   routes: [

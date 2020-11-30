@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div>
+      User: {{ $store.state.currentUser }}
+    </div>
     <router-view></router-view>
   </div>
 </template>

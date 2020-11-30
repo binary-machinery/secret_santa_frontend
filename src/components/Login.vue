@@ -1,7 +1,5 @@
 <template>
-  <form id="loginForm"
-        method="post"
-        :action="SERVER_URL + '/login'">
+  <div>
     <table>
       <tr>
         <th>Email</th>
@@ -22,17 +20,37 @@
       </tr>
     </table>
 
-    <input type="submit" value="Войти">
-  </form>
+    <button type="button"
+            @click="submitLogin">
+      Войти
+    </button>
+  </div>
 </template>
 
 <script>
+import Axios from "axios";
+
 export default {
   name: "Login",
   data: function () {
     return {
       email: null,
       password: null
+    }
+  },
+  methods: {
+    submitLogin: function () {
+      var formData = new FormData();
+      formData.append('email', this.email);
+      formData.append('password', this.password);
+      Axios.post(this.SERVER_URL + '/login', formData, { withCredentials: true })
+          .then(() => {
+            return Axios.get(this.SERVER_URL + '/current-user', { withCredentials: true });
+          })
+          .then(response => {
+            this.$store.commit('setUser', response.data);
+            this.$router.push({ path: '/' });
+          });
     }
   }
 }
