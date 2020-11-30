@@ -26,7 +26,7 @@ export default {
       this.$store.dispatch('logout')
           .then(() => {
             this.$router.push({ path: '/login' });
-          })
+          });
     }
   }
 }
