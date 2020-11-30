@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import Axios from "axios";
-
 export default {
   name: "Login",
   data: function () {
@@ -40,15 +38,8 @@ export default {
   },
   methods: {
     submitLogin: function () {
-      var formData = new FormData();
-      formData.append('email', this.email);
-      formData.append('password', this.password);
-      Axios.post(this.SERVER_URL + '/login', formData, { withCredentials: true })
+      this.$store.dispatch('login', { email: this.email, password: this.password })
           .then(() => {
-            return Axios.get(this.SERVER_URL + '/current-user', { withCredentials: true });
-          })
-          .then(response => {
-            this.$store.commit('setUser', response.data);
             this.$router.push({ path: '/' });
           });
     }

@@ -19,13 +19,14 @@
 </template>
 
 <script>
-import Axios from "axios";
-
 export default {
   name: 'HelloWorld',
   methods: {
     logout: function () {
-      Axios.post(this.SERVER_URL + '/logout', {}, { withCredentials: true });
+      this.$store.dispatch('logout')
+          .then(() => {
+            this.$router.push({ path: '/login' });
+          })
     }
   }
 }

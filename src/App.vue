@@ -9,7 +9,11 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mounted: function () {
+    this.$store.commit('setServerUrl', this.SERVER_URL);
+    this.$store.dispatch('fetchCurrentUser');
+  }
 }
 </script>
 
