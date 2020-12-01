@@ -15,6 +15,9 @@
         <router-link to="/create-event">Создать событие</router-link>
       </li>
       <li>
+        <router-link to="/user-events">Мои события</router-link>
+      </li>
+      <li>
         <button type="button"
                 @click="logout">
           Logout

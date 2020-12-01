@@ -4,6 +4,9 @@
       User: {{ $store.state.currentUser }}
     </div>
     <router-view></router-view>
+    <div v-if="$route.path !== '/'">
+      <router-link to="/">Вернуться в меню</router-link>
+    </div>
   </div>
 </template>
 

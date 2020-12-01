@@ -6,6 +6,7 @@ import Registration from "@/components/Registration";
 import Login from "@/components/Login";
 import EditProfile from "@/components/EditProfile";
 import CreateEvent from "@/components/CreateEvent";
+import UserEvents from "@/components/UserEvents";
 
 Vue.use(VueRouter);
 
@@ -16,5 +17,6 @@ export default new VueRouter({
     { path: '/login', component: Login },
     { path: '/edit-profile', component: EditProfile },
     { path: '/create-event', component: CreateEvent },
+    { path: '/user-events', component: UserEvents },
   ]
 })
