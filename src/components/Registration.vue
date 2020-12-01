@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form>
     <table>
       <tr>
         <th>Email</th>
@@ -29,7 +29,7 @@
         </td>
       </tr>
     </table>
-  </div>
+  </form>
 </template>
 
 <script>
