@@ -29,6 +29,16 @@ export default new Vuex.Store({
         });
     },
 
+    register(context, payload) {
+      const formData = new FormData();
+      formData.append('email', payload.email);
+      formData.append('password', payload.password);
+      return Axios.post(context.state.serverUrl + '/registration', formData, { withCredentials: true })
+        .then(() => {
+          return context.dispatch('fetchCurrentUser');
+        });
+    },
+
     login(context, payload) {
       const formData = new FormData();
       formData.append('email', payload.email);

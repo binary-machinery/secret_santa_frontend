@@ -18,12 +18,17 @@
                  v-model="password">
         </td>
       </tr>
-    </table>
 
-    <button type="button"
-            @click="submitLogin">
-      Войти
-    </button>
+      <tr>
+        <th></th>
+        <td>
+          <button type="button"
+                  @click="submitLogin">
+            Войти
+          </button>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 

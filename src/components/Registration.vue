@@ -1,7 +1,5 @@
 <template>
-  <form id="registrationForm"
-        method="post"
-        :action="SERVER_URL + '/registration'">
+  <div>
     <table>
       <tr>
         <th>Email</th>
@@ -20,10 +18,18 @@
                  v-model="password">
         </td>
       </tr>
-    </table>
 
-    <input type="submit" value="Зарегистрироваться">
-  </form>
+      <tr>
+        <th></th>
+        <td>
+          <button type="button"
+                  @click="submitRegistration">
+            Зарегистрироваться
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -33,6 +39,14 @@ export default {
     return {
       email: null,
       password: null
+    }
+  },
+  methods: {
+    submitRegistration() {
+      this.$store.dispatch('register', { email: this.email, password: this.password })
+          .then(() => {
+            this.$router.push({ path: '/' });
+          });
     }
   }
 }
