@@ -12,6 +12,9 @@
         <router-link to="/edit-profile">Профиль</router-link>
       </li>
       <li>
+        <router-link to="/create-event">Создать событие</router-link>
+      </li>
+      <li>
         <button type="button"
                 @click="logout">
           Logout
@@ -23,7 +26,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'MainMenu',
   methods: {
     logout: function () {
       this.$store.dispatch('logout')
