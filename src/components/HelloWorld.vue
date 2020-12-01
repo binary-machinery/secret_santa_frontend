@@ -9,6 +9,9 @@
         <router-link to="/registration">Зарегистрироваться</router-link>
       </li>
       <li>
+        <router-link to="/edit-profile">Профиль</router-link>
+      </li>
+      <li>
         <button type="button"
                 @click="logout">
           Logout
