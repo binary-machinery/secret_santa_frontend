@@ -8,7 +8,7 @@
         <th>Код приглашения</th>
       </tr>
       <tr v-for="event in events" :key="event.id">
-        <td>{{ event.id }}</td>
+        <td>{{ event.event_id }}</td>
         <td>{{ event.name }}</td>
         <td>{{ event.description }}</td>
         <td>{{ event.invite_code }}</td>
