@@ -7,6 +7,7 @@ import Login from "@/components/Login";
 import EditProfile from "@/components/EditProfile";
 import CreateEvent from "@/components/CreateEvent";
 import UserEvents from "@/components/UserEvents";
+import JoinEvent from "@/components/JoinEvent";
 
 Vue.use(VueRouter);
 
@@ -18,5 +19,6 @@ export default new VueRouter({
     { path: '/edit-profile', component: EditProfile },
     { path: '/create-event', component: CreateEvent },
     { path: '/user-events', component: UserEvents },
+    { path: '/join-event', component: JoinEvent },
   ]
 })

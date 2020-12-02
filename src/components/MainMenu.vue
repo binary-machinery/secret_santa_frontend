@@ -18,6 +18,9 @@
         <router-link to="/user-events">Мои события</router-link>
       </li>
       <li>
+        <router-link to="/join-event">Присоединиться к событию</router-link>
+      </li>
+      <li>
         <button type="button"
                 @click="logout">
           Logout
