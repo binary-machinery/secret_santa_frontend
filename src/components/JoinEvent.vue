@@ -34,7 +34,7 @@ export default {
   methods: {
     joinEvent() {
       Axios.post(this.SERVER_URL + '/join-event',
-          { inviteCode: this.inviteCode },
+          { invite_code: this.inviteCode },
           { withCredentials: true })
           .then(() => {
             // TODO: notify user
