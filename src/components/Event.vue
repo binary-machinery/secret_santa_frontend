@@ -64,10 +64,17 @@
     </p>
 
     <h3>Участники</h3>
-    <table class="user-table">
+    <ul v-if="!personalData.is_admin">
+      <li v-for="eventUser in eventUsers" :key="eventUser.user_id">
+        <span>{{ eventUser.user_name }}</span>
+        <span v-if="eventUser.is_admin"> (организатор)</span>
+      </li>
+    </ul>
+
+    <table v-if="personalData.is_admin" class="user-table">
       <tr>
         <th></th>
-        <th v-if="personalData.is_admin">Ограничения</th>
+        <th>Ограничения</th>
       </tr>
 
       <tr v-for="eventUser in eventUsers" :key="eventUser.user_id">
@@ -76,7 +83,7 @@
           <span v-if="eventUser.is_admin"> (организатор)</span>
         </td>
 
-        <td v-if="personalData.is_admin">
+        <td>
           <span v-for="constraint in eventUserConstraints[eventUser.user_id]" :key="constraint.constraint_user_id">
             {{ getUserName(constraint.constraint_user_id) }}
             <button type="button" @click="deleteUserConstraint(eventUser.user_id, constraint.constraint_user_id)">
