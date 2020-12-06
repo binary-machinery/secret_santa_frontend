@@ -116,6 +116,14 @@
         </td>
       </tr>
     </table>
+
+    <br/>
+
+    <div v-if="personalData.is_admin">
+      <button type="button" @click="startEvent">
+        Запустить!
+      </button>
+    </div>
   </div>
 </template>
 
@@ -257,6 +265,18 @@ export default {
             this.eventUserConstraints = response.data;
           });
     },
+
+    startEvent() {
+      Axios.post(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/start',
+          {}, { withCredentials: true })
+          .then(() => {
+            return Axios.get(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/personal-data',
+                { withCredentials: true });
+          })
+          .then(response => {
+            this.personalData = response.data;
+          });
+    }
   }
 }
 </script>

@@ -3,7 +3,13 @@
     <div>
       User: {{ $store.state.currentUser }}
     </div>
+
+    <br/>
+
     <router-view></router-view>
+
+    <br/>
+
     <div v-if="$route.path !== '/'">
       <router-link to="/">Вернуться в меню</router-link>
     </div>
