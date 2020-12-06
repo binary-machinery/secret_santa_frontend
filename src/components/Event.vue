@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{ event.name }}</h2>
-    <div v-if="!editEventMode">
+    <div v-if="!editEventModel">
       <p style="white-space: pre-line;">
         {{ event.description }}
       </p>
@@ -12,12 +12,12 @@
       </div>
     </div>
 
-    <div v-if="editEventMode">
+    <div v-if="editEventModel">
       <p>
-        <input v-model="eventName">
+        <input v-model="editEventModel.name">
       </p>
       <p>
-        <textarea v-model="eventDescription" cols="80" rows="10"/>
+        <textarea v-model="editEventModel.description" cols="80" rows="10"/>
       </p>
       <div>
         <button type="button" @click="submitEditEvent">
@@ -30,7 +30,7 @@
     </div>
 
     <h3>Мои пожелания</h3>
-    <div v-if="!editWishesMode">
+    <div v-if="!editWishesModel">
       <p style="white-space: pre-line;">
         {{ personalData.wishes }}
       </p>
@@ -41,9 +41,9 @@
       </div>
     </div>
 
-    <div v-if="editWishesMode">
+    <div v-if="editWishesModel">
       <p>
-        <textarea v-model="wishes" cols="80" rows="10"/>
+        <textarea v-model="editWishesModel.wishes" cols="80" rows="10"/>
       </p>
       <div>
         <button type="button" @click="submitEditWishes">
@@ -88,9 +88,28 @@
             </tr>
             <tr>
               <td>
-                <button type="button" @click="addUserConstraint">
-                  Добавить
-                </button>
+                <div v-if="!addUserConstraintModel || addUserConstraintModel.user_id !== eventUser.user_id">
+                  <button type="button" @click="addUserConstraint(eventUser.user_id)">
+                    Добавить
+                  </button>
+                </div>
+
+                <div v-if="addUserConstraintModel && addUserConstraintModel.user_id === eventUser.user_id">
+                  <div>
+                    <select v-model="addUserConstraintModel.constraint_user_id">
+                      <option v-for="eventUser in eventUsers" :key="eventUser.user_id"
+                              :value="eventUser.user_id">
+                        {{ eventUser.user_name }}
+                      </option>
+                    </select>
+                    <button type="button" @click="submitAddUserConstraint">
+                      Добавить
+                    </button>
+                    <button type="button" @click="cancelAddUserConstraint">
+                      Отмена
+                    </button>
+                  </div>
+                </div>
               </td>
             </tr>
           </table>
@@ -112,12 +131,9 @@ export default {
       eventUserConstraints: {},
       personalData: {},
 
-      editWishesMode: false,
-      wishes: null,
-
-      editEventMode: false,
-      eventName: null,
-      eventDescription: null,
+      editWishesModel: null,
+      editEventModel: null,
+      addUserConstraintModel: null,
     }
   },
   mounted: function () {
@@ -153,72 +169,77 @@ export default {
     },
 
     editEvent() {
-      this.eventName = this.event.name;
-      this.eventDescription = this.event.description;
-      this.editEventMode = true;
+      this.editEventModel = {
+        name: this.event.name,
+        description: this.event.description
+      };
     },
 
     cancelEditEvent() {
-      this.eventName = null;
-      this.eventDescription = null;
-      this.editEventMode = false;
+      this.editEventModel = null;
     },
 
     submitEditEvent() {
       Axios.post(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/edit',
-          { name: this.eventName, description: this.eventDescription },
+          this.editEventModel,
           { withCredentials: true })
           .then(() => {
-            this.event.name = null;
-            this.event.description = null;
             return Axios.get(this.SERVER_URL + '/event/' + this.$route.params.eventId,
                 { withCredentials: true });
           })
           .then(response => {
             this.event = response.data;
-          })
-          .finally(() => {
-            this.editEventMode = false;
+            this.editEventModel = null;
           });
     },
 
     editWishes() {
-      this.wishes = this.personalData.wishes;
-      this.editWishesMode = true;
+      this.editWishesModel = {
+        wishes: this.personalData.wishes
+      };
     },
 
     cancelEditWishes() {
-      this.wishes = null;
-      this.editWishesMode = false;
+      this.editWishesModel = null;
     },
 
     submitEditWishes() {
       Axios.post(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/save-wishes',
-          { wishes: this.wishes },
+          { wishes: this.editWishesModel.wishes },
           { withCredentials: true })
           .then(() => {
-            this.wishes = null;
             return Axios.get(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/personal-data',
                 { withCredentials: true });
           })
           .then(response => {
             this.personalData = response.data;
-          })
-          .finally(() => {
-            this.editWishesMode = false;
+            this.editWishesModel = null;
           });
     },
 
-    addUserConstraint(userId, constraintUserId) {
+    addUserConstraint(userId) {
+      this.addUserConstraintModel = {
+        event_id: this.$route.params.eventId,
+        user_id: userId,
+        constraint_user_id: null,
+      };
+    },
+
+    cancelAddUserConstraint() {
+      this.addUserConstraintModel = null;
+    },
+
+    submitAddUserConstraint() {
       Axios.post(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/constraints',
-          { user_id: userId, constraint_user_id: constraintUserId },
+          this.addUserConstraintModel,
           { withCredentials: true })
           .then(() => {
-            this.eventUserConstraints[userId] = {
-              event_id: this.$route.params.eventId,
-              user_id: userId,
-              constraint_user_id: constraintUserId
-            };
+            return Axios.get(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/constraints',
+                { withCredentials: true });
+          })
+          .then(response => {
+            this.eventUserConstraints = response.data;
+            this.addUserConstraintModel = null;
           });
     },
 
@@ -229,7 +250,11 @@ export default {
             withCredentials: true
           })
           .then(() => {
-            delete this.eventUserConstraints[userId];
+            return Axios.get(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/constraints',
+                { withCredentials: true });
+          })
+          .then(response => {
+            this.eventUserConstraints = response.data;
           });
     },
   }
