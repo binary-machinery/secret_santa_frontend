@@ -4,11 +4,41 @@
     <p>{{ event.description }}</p>
 
     <h3>Мои пожелания</h3>
-    <p>{{ personalData.wishes }}</p>
+    <div v-if="!editWishesMode">
+      <p style="white-space: pre-line;">
+        {{ personalData.wishes }}
+      </p>
+      <div>
+        <button type="button"
+                @click="editWishes">
+          Редактировать
+        </button>
+      </div>
+    </div>
+
+    <div v-if="editWishesMode">
+      <p>
+        <textarea v-model="wishes" cols="80" rows="10"/>
+      </p>
+      <div>
+        <button type="button"
+                @click="submitEditWishes">
+          Сохранить
+        </button>
+        <button type="button"
+                @click="cancelEditWishes">
+          Отмена
+        </button>
+      </div>
+    </div>
 
     <h3>Получатель</h3>
     <p>{{ personalData.receiver_name }}</p>
-    <p>{{ personalData.receiver_wishes }}</p>
+
+    <h3>Пожелания получателя</h3>
+    <p style="white-space: pre-line;">
+      {{ personalData.receiver_wishes }}
+    </p>
 
     <h3>Участники</h3>
     <table>
@@ -31,7 +61,9 @@ export default {
     return {
       event: null,
       eventUsers: [],
-      personalData: null
+      personalData: null,
+      editWishesMode: false,
+      wishes: null,
     }
   },
   mounted: function () {
@@ -52,6 +84,31 @@ export default {
         .then(response => {
           this.personalData = response.data;
         });
+  },
+  methods: {
+    editWishes() {
+      this.wishes = this.personalData.wishes;
+      this.editWishesMode = true;
+    },
+    cancelEditWishes() {
+      this.wishes = null;
+      this.editWishesMode = false;
+    },
+    submitEditWishes() {
+      Axios.post(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/save-wishes',
+          { wishes: this.wishes },
+          { withCredentials: true })
+          .then(() => {
+            return Axios.get(this.SERVER_URL + '/event/' + this.$route.params.eventId + '/personal-data',
+                { withCredentials: true });
+          })
+          .then(response => {
+            this.personalData = response.data;
+          })
+          .finally(() => {
+            this.editWishesMode = false;
+          });
+    }
   }
 }
 </script>
