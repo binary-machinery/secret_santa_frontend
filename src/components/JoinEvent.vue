@@ -5,7 +5,7 @@
         <th>Код приглашения</th>
         <td>
           <input type="text"
-                 v-model="invite_code">
+                 v-model="inviteCode">
         </td>
       </tr>
       <tr>
@@ -28,13 +28,13 @@ export default {
   name: "JoinEvent",
   data: function () {
     return {
-      invite_code: null
+      inviteCode: null
     }
   },
   methods: {
     joinEvent() {
       Axios.post(this.SERVER_URL + '/join-event',
-          { invite_code: this.invite_code },
+          { inviteCode: this.inviteCode },
           { withCredentials: true })
           .then(() => {
             // TODO: notify user
