@@ -33,12 +33,12 @@ export default {
   },
   methods: {
     joinEvent() {
-      Axios.post(this.SERVER_URL + '/join-event',
+      Axios.post(this.SERVER_URL + '/event/join',
           { invite_code: this.inviteCode },
           { withCredentials: true })
           .then(() => {
             // TODO: notify user
-            this.$router.push({ path: '/user-events' });
+            this.$router.push({ path: '/event/user-events' });
           });
     }
   }

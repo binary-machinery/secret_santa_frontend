@@ -32,7 +32,7 @@ export default {
     }
   },
   mounted: function () {
-    Axios.get(this.SERVER_URL + '/user-events', { withCredentials: true })
+    Axios.get(this.SERVER_URL + '/event/user-events', { withCredentials: true })
         .then(response => {
           this.events = response.data;
         });

@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     submitEvent() {
-      Axios.post(this.SERVER_URL + '/create-event',
+      Axios.post(this.SERVER_URL + '/event/create',
           { name: this.name, description: this.description },
           { withCredentials: true })
           .then(() => {
