@@ -1,5 +1,7 @@
 <template>
   <form>
+    <h2>Регистрация</h2>
+
     <table>
       <tr>
         <th>Email</th>

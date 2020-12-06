@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>Мой профиль</h2>
+
     <table>
       <tr>
         <th>Email</th>

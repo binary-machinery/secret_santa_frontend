@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>Мои праздники</h2>
+
     <table>
       <tr>
         <th>Название</th>

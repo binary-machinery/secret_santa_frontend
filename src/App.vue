@@ -15,8 +15,9 @@
         <button class="user-bar-element" type="button" @click="logout">
           Выйти
         </button>
+
+        <hr>
       </div>
-      <hr>
     </div>
 
     <router-view></router-view>
