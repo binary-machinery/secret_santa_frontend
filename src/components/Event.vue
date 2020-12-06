@@ -64,7 +64,7 @@
     </p>
 
     <h3>Участники</h3>
-    <table>
+    <table class="user-table">
       <tr>
         <th></th>
         <th v-if="personalData.is_admin">Ограничения</th>
@@ -77,42 +77,37 @@
         </td>
 
         <td v-if="personalData.is_admin">
-          <table>
-            <tr v-for="constraint in eventUserConstraints[eventUser.user_id]" :key="constraint.constraint_user_id">
-              <td>
-                {{ getUserName(constraint.constraint_user_id) }}
-                <button type="button" @click="deleteUserConstraint(eventUser.user_id, constraint.constraint_user_id)">
-                  Удалить
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div v-if="!addUserConstraintModel || addUserConstraintModel.user_id !== eventUser.user_id">
-                  <button type="button" @click="addUserConstraint(eventUser.user_id)">
-                    Добавить
-                  </button>
-                </div>
+          <span v-for="constraint in eventUserConstraints[eventUser.user_id]" :key="constraint.constraint_user_id">
+            {{ getUserName(constraint.constraint_user_id) }}
+            <button type="button" @click="deleteUserConstraint(eventUser.user_id, constraint.constraint_user_id)">
+              -
+            </button>
+          </span>
+        </td>
 
-                <div v-if="addUserConstraintModel && addUserConstraintModel.user_id === eventUser.user_id">
-                  <div>
-                    <select v-model="addUserConstraintModel.constraint_user_id">
-                      <option v-for="eventUser in eventUsers" :key="eventUser.user_id"
-                              :value="eventUser.user_id">
-                        {{ eventUser.user_name }}
-                      </option>
-                    </select>
-                    <button type="button" @click="submitAddUserConstraint">
-                      Добавить
-                    </button>
-                    <button type="button" @click="cancelAddUserConstraint">
-                      Отмена
-                    </button>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </table>
+        <td class="no-border">
+          <span>
+            <span v-if="!addUserConstraintModel || addUserConstraintModel.user_id !== eventUser.user_id">
+              <button type="button" @click="addUserConstraint(eventUser.user_id)">
+                +
+              </button>
+            </span>
+
+            <span v-if="addUserConstraintModel && addUserConstraintModel.user_id === eventUser.user_id">
+              <select v-model="addUserConstraintModel.constraint_user_id">
+                <option v-for="eventUser in eventUsers" :key="eventUser.user_id"
+                        :value="eventUser.user_id">
+                  {{ eventUser.user_name }}
+                </option>
+              </select>
+              <button type="button" @click="submitAddUserConstraint">
+                Добавить
+              </button>
+              <button type="button" @click="cancelAddUserConstraint">
+                Отмена
+              </button>
+            </span>
+          </span>
         </td>
       </tr>
     </table>
@@ -282,5 +277,10 @@ export default {
 </script>
 
 <style scoped>
-
+.user-table > table, td {
+  border: 1px solid black;
+}
+.no-border {
+  border: 0;
+}
 </style>
