@@ -2,20 +2,16 @@
   <div>
     <table>
       <tr>
-        <th>ID</th>
         <th>Название</th>
         <th>Описание</th>
         <th>Код приглашения</th>
         <th></th>
       </tr>
       <tr v-for="event in events" :key="event.id">
-        <td>{{ event.event_id }}</td>
-        <td>{{ event.name }}</td>
+        <td><router-link :to="'/event/' + event.event_id">{{ event.name }}</router-link></td>
         <td>{{ event.description }}</td>
         <td>{{ event.invite_code }}</td>
-        <td>
-          <router-link :to="'/event/' + event.event_id">Открыть</router-link>
-        </td>
+        <td><router-link :to="'/event/' + event.event_id">Открыть</router-link></td>
       </tr>
     </table>
   </div>

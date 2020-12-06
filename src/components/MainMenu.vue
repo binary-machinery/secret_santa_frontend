@@ -1,30 +1,20 @@
 <template>
   <div class="hello">
-    <h1>Тайный Санта</h1>
     <ul>
-      <li>
+      <li v-if="!$store.state.currentUser">
         <router-link to="/login">Войти</router-link>
       </li>
-      <li>
+      <li v-if="!$store.state.currentUser">
         <router-link to="/registration">Зарегистрироваться</router-link>
       </li>
-      <li>
-        <router-link to="/edit-profile">Профиль</router-link>
+      <li v-if="$store.state.currentUser">
+        <router-link to="/user-events">Мои праздники</router-link>
       </li>
-      <li>
-        <router-link to="/create-event">Создать событие</router-link>
+      <li v-if="$store.state.currentUser">
+        <router-link to="/join-event">Присоединиться к празднику</router-link>
       </li>
-      <li>
-        <router-link to="/user-events">Мои события</router-link>
-      </li>
-      <li>
-        <router-link to="/join-event">Присоединиться к событию</router-link>
-      </li>
-      <li>
-        <button type="button"
-                @click="logout">
-          Logout
-        </button>
+      <li v-if="$store.state.currentUser">
+        <router-link to="/create-event">Создать праздник</router-link>
       </li>
     </ul>
   </div>
@@ -32,15 +22,7 @@
 
 <script>
 export default {
-  name: 'MainMenu',
-  methods: {
-    logout: function () {
-      this.$store.dispatch('logout')
-          .then(() => {
-            this.$router.push({ path: '/login' });
-          });
-    }
-  }
+  name: 'MainMenu'
 }
 </script>
 

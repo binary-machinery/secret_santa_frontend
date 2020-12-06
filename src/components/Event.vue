@@ -66,7 +66,7 @@
     <h3>Участники</h3>
     <table>
       <tr>
-        <th>Имя</th>
+        <th></th>
         <th v-if="personalData.is_admin">Ограничения</th>
       </tr>
 

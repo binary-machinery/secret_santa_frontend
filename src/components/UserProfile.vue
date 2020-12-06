@@ -2,6 +2,10 @@
   <div>
     <table>
       <tr>
+        <th>Email</th>
+        <td>{{ $store.state.currentUser.email }}</td>
+      </tr>
+      <tr>
         <th>Имя</th>
         <td>
           <input type="text"
@@ -25,7 +29,7 @@
 import Axios from "axios";
 
 export default {
-  name: "EditProfile",
+  name: "UserProfile",
   data: function () {
     return {
       name: ""
