@@ -3,7 +3,10 @@
     <table>
       <tr>
         <th>Email</th>
-        <td>{{ $store.state.currentUser.email }}</td>
+        <td>
+          <input type="text"
+                 v-model="email">
+        </td>
       </tr>
       <tr>
         <th>Имя</th>
@@ -32,21 +35,28 @@ export default {
   name: "UserProfile",
   data: function () {
     return {
-      name: ""
+      email: "",
+      name: "",
     }
   },
   mounted: function () {
     if (this.$store.state.currentUser) {
+      this.email = this.$store.state.currentUser.email;
       this.name = this.$store.state.currentUser.name;
     }
     this.$store.watch(
         state => state.currentUser,
-        (value) => this.name = value ? value.name : ""
+        (value) => {
+          this.email = value ? value.email : "";
+          this.name = value ? value.name : "";
+        }
     );
   },
   methods: {
     saveChanges() {
-      Axios.post(this.SERVER_URL + '/save-profile', { name: this.name }, { withCredentials: true })
+      Axios.post(this.SERVER_URL + '/save-profile',
+          { email: this.email, name: this.name },
+          { withCredentials: true })
           .then(() => {
             // TODO: show success message
             this.$store.dispatch('fetchCurrentUser');
