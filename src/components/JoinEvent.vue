@@ -40,7 +40,7 @@ export default {
           { withCredentials: true })
           .then(() => {
             // TODO: notify user
-            this.$router.push({ path: '/event/user-events' });
+            this.$router.push({ path: '/user-events' });
           });
     }
   }
