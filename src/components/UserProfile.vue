@@ -9,6 +9,12 @@
           <input type="text"
                  v-model="email">
         </td>
+        <td>
+          <button type="button"
+                  @click="testEmail">
+            Проверить
+          </button>
+        </td>
       </tr>
       <tr>
         <th>Имя</th>
@@ -27,6 +33,10 @@
         </td>
       </tr>
     </table>
+
+    <p v-if="emailTestCode">
+      Письмо было выслано на {{ $store.state.currentUser.email }}. Проверочный код: {{ emailTestCode }}
+    </p>
   </div>
 </template>
 
@@ -39,6 +49,7 @@ export default {
     return {
       email: "",
       name: "",
+      emailTestCode: null
     }
   },
   mounted: function () {
@@ -62,6 +73,12 @@ export default {
           .then(() => {
             // TODO: show success message
             this.$store.dispatch('fetchCurrentUser');
+          });
+    },
+    testEmail() {
+      Axios.post(this.SERVER_URL + '/test-email', {}, { withCredentials: true })
+          .then(response => {
+            this.emailTestCode = response.data;
           });
     }
   }
